@@ -1,9 +1,6 @@
 package gerenciar;
 
-import operacao.Divisao;
-import operacao.Multiplicacao;
-import operacao.Soma;
-import operacao.Subtracao;
+import operacao.*;
 
 public class Calculadora {
     private String entrada;
@@ -22,7 +19,7 @@ public class Calculadora {
         } else if (entrada.contains("/")) {
             return '/';
         } else {
-            throw new IllegalArgumentException("\nOperação inválida!\n");
+            throw new IllegalArgumentException("\nOperação Inválida!\n");
         }
     }
 
@@ -49,18 +46,23 @@ public class Calculadora {
                 return new Divisao();
 
             default:
-            throw new IllegalArgumentException("Operação Inválda");
+            throw new IllegalArgumentException("\nOperação Inválida!\n");
         }
     }
 
     public double calcular() {
-        char operacao = identificarOperacao();
-        double[] numeros = extrairNumeros();
-        double num1 = numeros[0];
-        double num2 = numeros[1];
+        try {
+            char operacao = identificarOperacao();
+            double[] numeros = extrairNumeros();
+            double num1 = numeros[0];
+            double num2 = numeros[1];
 
-        Operacao operacao1 = criarOperacao(operacao);
-        return operacao1.calcular(num1, num2);
+            Operacao operacao1 = criarOperacao(operacao);
+            return operacao1.calcular(num1, num2);
+
+        } catch (NumberFormatException nfe) {
+            throw new NumberFormatException("\nOperação Inválida!\n");
+        }
     }
 
     public String formatarResultado(double resultado) {
